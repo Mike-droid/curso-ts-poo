@@ -78,3 +78,126 @@ set month(newMonth: number) {
   this._month = newMonth;
 }
 ```
+
+## POO Avanzada
+
+### Herencia
+
+Aplicamos la herencia con la keyword `extends`.
+
+```typescript
+export class Animal {
+  constructor(public name: string) {}
+}
+
+export class Dog extends Animal {
+
+  constructor(
+    dogName: string,
+    public owner: string
+  ) {
+    super(dogName)
+  }
+}
+
+```
+
+### Acceso protegido
+
+`protected` es un modificador de acceso que permite que los atributos y métodos de la clase sean accesibles desde la misma clase y desde las clases que heredan de esta.
+
+### Static
+
+Las propiedades y los métodos estáticos pueden ser accedidos sin instanciar a la clase.
+
+Basta con usar la palabra `static` en la declaración de la propiedad o método.
+
+### Interfaces
+
+Podemos usar las interfaces como 'contratos' para que las clases cumplan una serie de requisitos.
+
+```typescript
+export interface Driver {
+  database: string;
+  password: string;
+  port: number;
+
+  connect(): void;
+
+  isConnected(name: string): boolean;
+}
+
+class PostgresDriver implements Driver {
+  constructor(public database: string, public password: string, public port: number) {}
+
+  connect(): void {
+    console.log('Postgres connected');
+  }
+
+  isConnected(name: string): boolean {
+    return true;
+  }
+}
+
+//! Obligatoriamente deben tener los atributos del driver
+
+class OracleDriver implements Driver {
+  constructor(public database: string, public password: string, public port: number) {}
+
+  connect(): void {
+    console.log('Oracle connected');
+  }
+
+  isConnected(name: string): boolean {
+    return true;
+  }
+}
+
+```
+
+### Clases abstractas
+
+Las clases abstractas son tan 'genericas' que no tiene sentido que sean instanciadas. Usamos la keyword `abstract`.
+
+`export abstract class Animal`
+
+### Singleton: constructor privado
+
+Singleton nos previene crear múltiples instancias de una clase.
+
+Esto es muy usado en Arquitectura de Software, pues nos ayuda a ahorrar uso de memoria.
+
+```typescript
+export class MyService {
+  static instance: MyService | null = null;
+
+  private constructor(
+    private name: string
+  ) {}
+
+  get Name() {
+    return this.name;
+  }
+
+  static create(name: string) {
+    if (MyService.instance === null) {
+      console.log('Creating new instance');
+      MyService.instance = new MyService(name);
+    }
+    return MyService.instance;
+  }
+}
+
+const myService1 = MyService.create('MyService1');
+console.log(myService1.Name)
+
+const myService2 = MyService.create('MyService2');
+console.log(myService2.Name)
+
+const myService3 = MyService.create('MyService3');
+console.log(myService3.Name)
+
+console.log(myService1 === myService2); //* true
+console.log(myService1 === myService3); //* true
+
+```
