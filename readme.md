@@ -201,3 +201,55 @@ console.log(myService1 === myService2); //* true
 console.log(myService1 === myService3); //* true
 
 ```
+
+## Asincronismo y consumo de APIs
+
+### Promesas
+
+Usaremos [axios](axios-http.com) y lo instalamos con `npm i axios`
+
+```typescript
+import axios from "axios"
+
+(async() => {
+  async function getProducts() {
+    const { data } = await axios.get('https://api.escuelajs.co/api/v1/products')
+    return data
+  }
+
+  const products = await getProducts()
+  console.log(products)
+})()
+
+```
+
+### Tipando respuestas HTTP
+
+Para ayudarnos del tipado de lo que esperamos de las respuestas, podemos usar [quicktype](quicktype.io)
+
+También existe una extensión de VS code llamada 'Paste JSON as Code'.
+
+```typescript
+import axios from "axios"
+
+import { Product } from "./models/product.model"
+
+(async() => {
+  async function getProducts() {
+    const { data } = await axios.get<Product[]>('https://api.escuelajs.co/api/v1/products')
+    return data
+  }
+
+  const products = await getProducts()
+  console.log(products.map(item => `${item.id} - ${item.title}`))
+})()
+
+```
+
+### Proyecto: migración de funciones a clases
+
+### Consumiendo ProductMemoryService
+
+### ProductHttpService
+
+### Consumiendo ProductHttpService
