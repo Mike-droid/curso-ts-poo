@@ -1,17 +1,10 @@
 import axios from "axios"
+import { apiUrl } from "./api"
 
 (async() => {
-  /* function delay (time: number) {
-    const promise = new Promise<boolean>((resolve, reject) => {
-      setTimeout(() => {
-        resolve(true)
-      }, time)
-    })
-    return promise
-  } */
 
   async function getProducts() {
-    const { data } = await axios.get('https://api.escuelajs.co/api/v1/products')
+    const { data } = await axios.get(`${apiUrl}/products`)
     return data
   }
 

@@ -253,3 +253,69 @@ import { Product } from "./models/product.model"
 ### ProductHttpService
 
 ### Consumiendo ProductHttpService
+
+## Genéricos
+
+### Generics
+
+Podemos enviar tipado como parámetro:
+
+```typescript
+import { Dog } from "./8-herencia";
+
+function getValue<T>(value: T) { //*Usar T es una convención para tus propios tipados
+  return value;
+}
+
+getValue<number>(12).toFixed()
+getValue<string>('12').length
+getValue<boolean>(true).toString()
+
+const doggy = new Dog('doggy', 'Snoop dog')
+getValue<Dog>(doggy)
+
+```
+
+### Generics en clases
+
+```typescript
+import axios from "axios";
+
+import { Category } from "./models/category.model";
+import { Product } from "./models/product.model";
+
+export class BaseHttpService<TypeClass> {
+  constructor(
+    private url: string,
+  ) { }
+
+  async getAll() {
+    const { data } = await axios.get<TypeClass[]>(this.url)
+    return data;
+  }
+}
+
+(async()=> {
+  const url1 = 'https://api.escuelajs.co/api/v1/products'
+
+  const productService = new BaseHttpService<Product>(url1)
+  const rta = await productService.getAll()
+  console.log('products: ', rta.length)
+
+  const url2 = 'https://api.escuelajs.co/api/v1/categories'
+  const categoryService = new BaseHttpService<Category>(url2)
+  const rta2 = await categoryService.getAll()
+  console.log('categories: ', rta2.length)
+})()
+
+```
+
+### Generics en métodos
+
+### Decoradores
+
+Usaremos [class-validator](https://github.com/typestack/class-validator)
+
+Lo instalamos con `npm install class-validator --save`
+
+En class-validator, las funciones inician con minúsculas y los decoradores con MAYÚSCULAS.
